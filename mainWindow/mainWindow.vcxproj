@@ -113,8 +113,10 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="customGV.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainWindow.cpp" />
+    <ClCompile Include="renderHub.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainWindow.h" />
@@ -124,6 +126,20 @@
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="mainWindow.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="customGV.h" />
+    <ClInclude Include="RTOneW\aabb.h" />
+    <ClInclude Include="RTOneW\bvh.h" />
+    <ClInclude Include="RTOneW\camera.h" />
+    <ClInclude Include="RTOneW\core.h" />
+    <ClInclude Include="RTOneW\hitable.h" />
+    <ClInclude Include="RTOneW\hitable_list.h" />
+    <ClInclude Include="RTOneW\material.h" />
+    <ClInclude Include="RTOneW\plane.h" />
+    <ClInclude Include="RTOneW\ray.h" />
+    <ClInclude Include="RTOneW\sphere.h" />
+    <ClInclude Include="RTOneW\vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

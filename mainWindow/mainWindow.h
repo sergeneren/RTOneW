@@ -31,9 +31,9 @@ public slots:
 	
 	
 signals:
-	void RTOneW_process_signal(vec3 **pix, int s, int width, int height);	
+	void RTOneW_process_signal(vec3 *pix, int s, int width, int height);	
 	private slots:
-	void RTOneW_process_slot(vec3 **pix, int s, int width, int height);
+	void RTOneW_process_slot(vec3 *pix, int s, int width, int height);
 private:
 	Ui::mainWindowClass ui;
 	qreal h11 = 1.0, h22 = 0;
@@ -45,4 +45,4 @@ private:
 };
 void send_to_render(int width, int height, int spp, float fov, float aperture);
 void setInstanceForRenderDistribution(mainWindow* w);
-void process_image(vec3 **pix, int s, int width, int height);
+void process_image(vec3 *pix, int s, int width, int height);

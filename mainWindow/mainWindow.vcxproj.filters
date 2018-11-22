@@ -36,9 +36,6 @@
     <ClCompile Include="mainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="renderHub.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="customGV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -95,5 +92,10 @@
     <ClInclude Include="RTOneW\bvh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="renderHub.cu">
+      <Filter>Source Files</Filter>
+    </CudaCompile>
   </ItemGroup>
 </Project>

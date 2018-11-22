@@ -2,14 +2,14 @@
 #ifndef CAMERAH
 #define CAMERAH
 #include "ray.h"
+#include <curand_kernel.h>
 
-
-vec3 random_in_unit_disk() {
+__device__ vec3 random_in_unit_disk(curandState *local_rand_state) {
 
 	vec3 p;
 	do {
 
-		p =2.0*vec3(RND2, RND2,0) - vec3(1,1,0);
+		p = 2.0f*vec3(curand_uniform(local_rand_state), curand_uniform(local_rand_state), 0) - vec3(1, 1, 0);
 
 	} while (dot(p,p) >= 1.0);
 	return p;
@@ -19,9 +19,8 @@ vec3 random_in_unit_disk() {
 class camera
 {
 public:
-	~camera() {};
-
-	camera(vec3 lookfrom , vec3 lookat, vec3 vup, float vfov, float aspect, float aperture, float focus_dist, float t0, float t1) {
+	
+	__device__ camera(vec3 lookfrom , vec3 lookat, vec3 vup, float vfov, float aspect, float aperture, float focus_dist, float t0, float t1) {
 
 		time0 = t0;
 		time1 = t1;
@@ -43,10 +42,10 @@ public:
 		
 	}
 
-	ray get_ray(float s, float t) {
-		vec3 rd = lens_radius * random_in_unit_disk();
+	__device__ ray get_ray(float s, float t, curandState *local_rand_state) {
+		vec3 rd = lens_radius * random_in_unit_disk(local_rand_state);
 		vec3 offset = u * rd.x()+ v*rd.y();
-		float time = time0 + RND * (time1 - time0);
+		float time = time0 + curand_uniform(local_rand_state) * (time1 - time0);
 		return ray(origin+offset, lower_left_corner + s * horizontal + t * vertical - origin - offset, time); 
 	}
 

@@ -21,7 +21,7 @@ mainWindow::mainWindow(QWidget *parent)
 
 	connect(ui.renderButton, SIGNAL(clicked()), this, SLOT(onRenderButtonClicked()));
 	connect(ui.actionExit, &QAction::triggered, qApp, QApplication::quit);
-	connect(this, SIGNAL(RTOneW_process_signal(vec3**, int,int,int)), this, SLOT(RTOneW_process_slot(vec3**,int,int,int)));
+	connect(this, SIGNAL(RTOneW_process_signal(vec3*, int,int,int)), this, SLOT(RTOneW_process_slot(vec3*,int,int,int)));
 	ui.progressBar->setValue(0);
 	myGraphicsView->setScene(new QGraphicsScene(this));
 	myGraphicsView->scene()->addItem(&pixmap);
@@ -68,17 +68,19 @@ bool mainWindow::eventFilter(QObject *obj, QEvent *event)
 
 
 void  mainWindow::drawImage(QImage img, int currSpp, int goalSpp) {
-
+	qDebug() << "in_draw_image";
 	image = img.copy();
 	pixmap.setPixmap(QPixmap::fromImage(image));
 	myGraphicsView->show();
+	update();
 	ui.progressBar->setValue(currSpp);
 
 }
 
-void mainWindow::RTOneW_process_slot(vec3 **pix, int s, int width, int height) {
-	
+void mainWindow::RTOneW_process_slot(vec3 *pix, int s, int width, int height) {
+	update();
 	process_image(pix, s, width, height);
+	update();
 }
 
 

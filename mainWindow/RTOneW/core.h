@@ -16,8 +16,8 @@
 #include "material.h"
 
 
-void imageOutput(vec3 **pix, int s, int width, int height);
-void process_image(vec3 **pix, int s, int width, int height);
+void imageOutput(vec3 *pix, int s, int width, int height);
+void process_image(vec3 *pix, int s, int width, int height);
 
 
 #endif // !COREH

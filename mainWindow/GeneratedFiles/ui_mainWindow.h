@@ -291,7 +291,7 @@ public:
         label_8->setText(QApplication::translate("mainWindowClass", "Thread Size", nullptr));
         block_size->setText(QApplication::translate("mainWindowClass", "8", nullptr));
         label_9->setText(QApplication::translate("mainWindowClass", "Cuda Options", nullptr));
-        thread_size->setText(QApplication::translate("mainWindowClass", "8", nullptr));
+        thread_size->setText(QApplication::translate("mainWindowClass", "16", nullptr));
         menuFile->setTitle(QApplication::translate("mainWindowClass", "File", nullptr));
         menuView->setTitle(QApplication::translate("mainWindowClass", "View", nullptr));
     } // retranslateUi

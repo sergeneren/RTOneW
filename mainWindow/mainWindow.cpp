@@ -95,7 +95,7 @@ void mainWindow::RTOneW_process_slot(vec3 *pix, int s, int width, int height) {
 
 
 void mainWindow::onRenderButtonClicked() {
-		
+	
 	int width = 0;
 	int height = 0;
 	int spp = 0; 
@@ -113,5 +113,17 @@ void mainWindow::onRenderButtonClicked() {
 	t_size = ui.thread_size->text().toInt();
 
 	ui.progressBar->setRange(0, spp);
-	send_to_render(width, height, spp, fov, aperture, b_size, t_size);
+	
+	if (ui.renderButton->text() == "Render") {
+		ui.renderButton->setText("Cancel");
+		send_to_render(width, height, spp, fov, aperture, b_size, t_size);
+		
+	}
+	else {
+		ui.renderButton->setText("Render");
+		cancel_render();
+		
+	} 
+
+	
 }

@@ -5,8 +5,6 @@
 #define COREH
 
 
-
-
 #include "ray.h"
 #include "vec3.h"
 #include "hitable.h"

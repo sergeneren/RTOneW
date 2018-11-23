@@ -125,9 +125,10 @@
     <ClCompile Include="customGV.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainWindow.cpp" />
-    <CudaCompile Include="renderHub.cu">
+    <ClCompile Include="renderHub.cpp">
       <FileType>Document</FileType>
-    </CudaCompile>
+    </ClCompile>
+    <CudaCompile Include="render_kernels.cu" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainWindow.h" />
@@ -150,7 +151,7 @@
     <ClInclude Include="RTOneW\plane.h" />
     <ClInclude Include="RTOneW\ray.h" />
     <ClInclude Include="RTOneW\sphere.h" />
-    <ClInclude Include="RTOneW\vec3.h" />
+    <ClCompile Include="RTOneW\vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

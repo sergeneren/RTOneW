@@ -57,6 +57,11 @@ public:
     QVBoxLayout *verticalLayout_2;
     QLineEdit *fov;
     QLineEdit *aperture;
+    QLabel *label_7;
+    QLabel *label_8;
+    QLineEdit *block_size;
+    QLabel *label_9;
+    QLineEdit *thread_size;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuView;
@@ -198,6 +203,24 @@ public:
 
         verticalLayout_2->addWidget(aperture);
 
+        label_7 = new QLabel(centralWidget);
+        label_7->setObjectName(QStringLiteral("label_7"));
+        label_7->setGeometry(QRect(820, 314, 71, 20));
+        label_7->setFont(font2);
+        label_8 = new QLabel(centralWidget);
+        label_8->setObjectName(QStringLiteral("label_8"));
+        label_8->setGeometry(QRect(820, 344, 91, 20));
+        label_8->setFont(font2);
+        block_size = new QLineEdit(centralWidget);
+        block_size->setObjectName(QStringLiteral("block_size"));
+        block_size->setGeometry(QRect(920, 314, 133, 20));
+        label_9 = new QLabel(centralWidget);
+        label_9->setObjectName(QStringLiteral("label_9"));
+        label_9->setGeometry(QRect(860, 270, 121, 16));
+        label_9->setFont(font3);
+        thread_size = new QLineEdit(centralWidget);
+        thread_size->setObjectName(QStringLiteral("thread_size"));
+        thread_size->setGeometry(QRect(920, 340, 133, 20));
         mainWindowClass->setCentralWidget(centralWidget);
         layoutWidget->raise();
         layoutWidget->raise();
@@ -211,6 +234,11 @@ public:
         label_5->raise();
         label_6->raise();
         line->raise();
+        label_7->raise();
+        label_8->raise();
+        block_size->raise();
+        label_9->raise();
+        thread_size->raise();
         menuBar = new QMenuBar(mainWindowClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 1061, 21));
@@ -259,6 +287,11 @@ public:
         spp->setText(QApplication::translate("mainWindowClass", "100", nullptr));
         fov->setText(QApplication::translate("mainWindowClass", "35", nullptr));
         aperture->setText(QApplication::translate("mainWindowClass", "0.25", nullptr));
+        label_7->setText(QApplication::translate("mainWindowClass", "Block Size", nullptr));
+        label_8->setText(QApplication::translate("mainWindowClass", "Thread Size", nullptr));
+        block_size->setText(QApplication::translate("mainWindowClass", "8", nullptr));
+        label_9->setText(QApplication::translate("mainWindowClass", "Cuda Options", nullptr));
+        thread_size->setText(QApplication::translate("mainWindowClass", "8", nullptr));
         menuFile->setTitle(QApplication::translate("mainWindowClass", "File", nullptr));
         menuView->setTitle(QApplication::translate("mainWindowClass", "View", nullptr));
     } // retranslateUi

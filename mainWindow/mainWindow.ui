@@ -324,6 +324,97 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>314</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Full Sans LC 50</family>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Block Size</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>344</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Full Sans LC 50</family>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Thread Size</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="block_size">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>314</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>8</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>270</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Full Sans LC 50</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
+     </font>
+    </property>
+    <property name="text">
+     <string>Cuda Options</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="thread_size">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>340</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>16</string>
+    </property>
+   </widget>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>scrollArea</zorder>
@@ -336,6 +427,11 @@
    <zorder>label_5</zorder>
    <zorder>label_6</zorder>
    <zorder>line</zorder>
+   <zorder>label_7</zorder>
+   <zorder>label_8</zorder>
+   <zorder>block_size</zorder>
+   <zorder>label_9</zorder>
+   <zorder>thread_size</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

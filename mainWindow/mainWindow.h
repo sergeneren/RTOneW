@@ -43,6 +43,6 @@ private:
 	void handleWheelOnGraphicsScene(QGraphicsSceneWheelEvent* event);
 
 };
-void send_to_render(int width, int height, int spp, float fov, float aperture);
+void send_to_render(int width, int height, int spp, float fov, float aperture, int b_size, int t_size);
 void setInstanceForRenderDistribution(mainWindow* w);
 void process_image(vec3 *pix, int s, int width, int height);

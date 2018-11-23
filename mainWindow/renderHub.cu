@@ -161,7 +161,7 @@ __global__ void free_world(hitable **d_list, hitable **d_world, camera **d_camer
 }
 
 
-void render(int width, int height, int spp, float fov, float aperture) {
+void render(int width, int height, int spp, float fov, float aperture, int b_size, int t_size) {
 
 	vec3 **pix = new vec3*[width];
 	for (int i = 0; i < width; i++) {
@@ -178,8 +178,8 @@ void render(int width, int height, int spp, float fov, float aperture) {
 	int nx = width;
 	int ny = height;
 	int ns = spp;
-	int tx = 16;
-	int ty = 16;
+	int tx = b_size;
+	int ty = t_size;
 
 
 	int num_pixels = nx * ny;
@@ -260,8 +260,8 @@ void render(int width, int height, int spp, float fov, float aperture) {
 	//win->close();
 }
 
-void send_to_render(int width, int height, int spp, float fov, float aperture) {
+void send_to_render(int width, int height, int spp, float fov, float aperture, int b_size, int t_size) {
 	//qDebug() << "send to render";
 	spp = spp;
-	render(width, height, spp, fov, aperture);
+	render(width, height, spp, fov, aperture, b_size,t_size);
 }

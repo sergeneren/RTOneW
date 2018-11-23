@@ -99,7 +99,8 @@ void mainWindow::onRenderButtonClicked() {
 	int width = 0;
 	int height = 0;
 	int spp = 0; 
-
+	int b_size = 0;
+	int t_size = 0;
 	float fov = 0;
 	float aperture = 0;
 
@@ -108,8 +109,9 @@ void mainWindow::onRenderButtonClicked() {
 	spp = ui.spp->text().toInt();
 	fov = ui.fov->text().toFloat();
 	aperture = ui.aperture->text().toFloat();
-
+	b_size = ui.block_size->text().toInt();
+	t_size = ui.thread_size->text().toInt();
 
 	ui.progressBar->setRange(0, spp);
-	send_to_render(width, height, spp, fov, aperture);
+	send_to_render(width, height, spp, fov, aperture, b_size, t_size);
 }

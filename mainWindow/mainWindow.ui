@@ -292,7 +292,7 @@
      <item>
       <widget class="QLineEdit" name="spp">
        <property name="text">
-        <string>10</string>
+        <string>100</string>
        </property>
       </widget>
      </item>

@@ -28,7 +28,7 @@ __device__ vec3 random_in_unit_sphere(curandState *local_rand_state) {
 
 __device__ vec3 reflect(const vec3& v, const vec3& n) {
 
-	return v - 2 * dot(v, n)*n; 
+	return v - 2.0f * dot(v, n)*n; 
 
 }
 
@@ -128,7 +128,7 @@ public:
 		float reflect_prob; 
 		float cosine; 
 
-		if (dot(r_in.direction(), rec.normal) > 0) {
+		if (dot(r_in.direction(), rec.normal) > 0.0f) {
 
 			outward_normal = -rec.normal;
 			ni_over_nt = ref_idx; 
@@ -137,7 +137,7 @@ public:
 		else {
 
 			outward_normal = rec.normal; 
-			ni_over_nt = 1.0 / ref_idx; 
+			ni_over_nt = 1.0f / ref_idx; 
 			cosine = -dot(r_in.direction(), rec.normal) / r_in.direction().length(); 
 		}
 
@@ -146,7 +146,7 @@ public:
 		}
 		else {
 
-			reflect_prob = 1.0; 
+			reflect_prob = 1.0f; 
 
 		}
 

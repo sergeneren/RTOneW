@@ -53,14 +53,14 @@ void imageOutput(vec3 *pix, int s, int width, int height) {
 void process_image(vec3 *pix, int s, int width, int height) {
 	
 	QImage image(width, height, QImage::Format_RGB32);
-
+	float s_inv = 1 / float(s);
 #pragma omp parallell for
 	for (int row = height - 1; row >= 0; row--) {
 		for (int col = 0; col < width; col++) {
 			size_t pixel_index = row * width + col;
-			int ir = int(255.99*pix[pixel_index][0] / s);
-			int ig = int(255.99*pix[pixel_index][1] / s);
-			int ib = int(255.99*pix[pixel_index][2] / s);
+			int ir = int(255.99*pix[pixel_index][0] * s_inv);
+			int ig = int(255.99*pix[pixel_index][1] * s_inv);
+			int ib = int(255.99*pix[pixel_index][2] * s_inv);
 
 			image.setPixel(col, (height - 1) - row, qRgb(ir, ig, ib));
 		}
@@ -157,6 +157,7 @@ void render(int width, int height, int spp, float fov, float aperture, int b_siz
 
 	cudaDeviceReset();
 
+	
 	rendering = true;
 	//win->close();
 }

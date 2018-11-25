@@ -7,15 +7,15 @@ void setStyleSheet() {
 
 	QPalette darkPalette;
 	darkPalette.setColor(QPalette::Window, QColor(45, 45, 45));
-	darkPalette.setColor(QPalette::WindowText, Qt::white);
+	darkPalette.setColor(QPalette::WindowText, QColor(200, 200, 200));
 	darkPalette.setColor(QPalette::Base, QColor(25, 25, 27));
 	darkPalette.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
 	darkPalette.setColor(QPalette::ToolTipBase, Qt::white);
 	darkPalette.setColor(QPalette::ToolTipText, Qt::white);
-	darkPalette.setColor(QPalette::Text, Qt::white);
+	darkPalette.setColor(QPalette::Text, QColor(200, 200, 200));
 	darkPalette.setColor(QPalette::Button, QColor(20, 115, 130));
-	darkPalette.setColor(QPalette::ButtonText, QColor(242, 254, 254));
-	darkPalette.setColor(QPalette::BrightText, Qt::white);
+	darkPalette.setColor(QPalette::ButtonText, QColor(200, 200, 200));
+	darkPalette.setColor(QPalette::BrightText, QColor(100, 100, 100));
 	darkPalette.setColor(QPalette::Link, QColor(20, 115, 130));
 	darkPalette.setColor(QPalette::Shadow, QColor(11, 19, 22));
 	darkPalette.setColor(QPalette::Midlight, QColor(45, 45, 45));

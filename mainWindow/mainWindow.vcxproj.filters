@@ -50,6 +50,9 @@
     <QtMoc Include="mainWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="customGV.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainWindow.ui">
@@ -63,9 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RTOneW\core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="customGV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RTOneW\camera.h">

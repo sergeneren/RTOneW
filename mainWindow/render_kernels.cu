@@ -91,10 +91,10 @@ __global__ void create_world_kernel(hitable **d_list, hitable **d_world, camera 
 	if (threadIdx.x == 0 && blockIdx.x == 0) {
 		curandState local_rand_state = *rand_state;
 
-		d_list[0] = new sphere(vec3(0, 0, 0), 0.5, new lambertian(vec3(0.9, 0, 0)));
-		d_list[1] = new sphere(vec3(0, -100.5, -1), 100, new lambertian(vec3(0.0, 0.9, 0.9)));
-		d_list[2] = new sphere(vec3(0, 0, -1), 0.5, new metal(vec3(0.9, 0.9, 0.9), .1));
-		d_list[3] = new sphere(vec3(0, 0, 1), 0.5, new dielectric(1.333));
+		d_list[0] = new sphere(vec3(0, 0, 0), 0.5f, new lambertian(vec3(0.9, 0, 0)));
+		d_list[1] = new sphere(vec3(0, -100.5, -1), 100.0f, new lambertian(vec3(0.0, 0.9, 0.9)));
+		d_list[2] = new sphere(vec3(0, 0, -1), 0.5f, new metal(vec3(0.9, 0.9, 0.9), 0.1f));
+		d_list[3] = new sphere(vec3(0, 0, 1), 0.5f, new dielectric(1.333));
 
 		*d_world = new hitable_list(d_list, 4);
 

@@ -14,12 +14,13 @@ public:
 	__device__ virtual vec3 emitted(float u, float v, const vec3& p) const { return vec3(0, 0, 0); }
 };
 
+
 __device__ vec3 random_in_unit_sphere(curandState *local_rand_state) {
 
 	vec3 p;
 	do {
 
-		p = 2.0f*RANDVEC3 - vec3(1, 1, 1);
+		p = 2.0f*vec3(vanDerCorput(local_rand_state), vanDerCorput(local_rand_state, 3), vanDerCorput(local_rand_state, 7)) - vec3(1, 1, 1);
 
 	} while (p.squared_length() >= 1.0f);
 	return p;

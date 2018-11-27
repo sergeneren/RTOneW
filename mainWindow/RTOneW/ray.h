@@ -5,6 +5,21 @@
 
 #include "vec3.h"
 
+__device__ float vanDerCorput(curandState *local_rand_state, int base = 2) {
+
+	int n = int(curand_uniform(local_rand_state) * 100);
+	float rand = 0, denom = 1, invBase = 1.f / base;
+
+	while (n) {
+
+		denom *= base;
+		rand += (n%base) / denom;
+		n *= invBase;
+
+	}
+	return rand;
+}
+
 class ray
 {
 public:

@@ -12,14 +12,13 @@
 #include <random>
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
-
+#include <curand_kernel.h>
 
 #define RND (curand_uniform(&local_rand_state))
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
 #include <iostream>
-
 
 
 

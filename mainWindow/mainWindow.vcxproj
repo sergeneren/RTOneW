@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClInclude Include="customGV.h" />
     <ClInclude Include="RTOneW\aabb.h" />
+    <ClInclude Include="RTOneW\atmosphere.h" />
     <ClInclude Include="RTOneW\bvh.h" />
     <ClInclude Include="RTOneW\camera.h" />
     <ClInclude Include="RTOneW\core.h" />

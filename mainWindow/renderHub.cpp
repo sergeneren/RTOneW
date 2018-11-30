@@ -10,14 +10,15 @@
 
 class hitable;
 class camera;
+class atmosphere;
 
 ////////////////////////////////////////////////////////////////////////////////
 // declaration, forward
 extern "C" void init_fb(vec3* fb, int nx, int ny);
 extern "C" void rand_init(curandState *rand_state);
 extern "C" void render_init(int nx, int ny, int tx, int ty, curandState *rand_state);
-extern "C" void render_image(vec3 *fb, int nx, int ny, int tx, int ty, int ns, camera **cam, hitable **world, curandState *rand_state);
-extern "C" void create_world(hitable **d_list, hitable **d_world, camera **d_camera, 
+extern "C" void render_image(vec3 *fb, int nx, int ny, int tx, int ty, int ns, camera **cam, hitable **world, atmosphere **sky,curandState *rand_state);
+extern "C" void create_world(hitable **d_list, hitable **d_world, camera **d_camera, atmosphere **d_atmosphere,
 							 int nx, int ny, float fov, float aperture, curandState *rand_state);
 extern "C" void free_world(hitable **d_list, hitable **d_world, camera **d_camera);
 
@@ -65,7 +66,7 @@ void process_image(vec3 *pix, int s, int width, int height) {
 			image.setPixel(col, (height - 1) - row, qRgb(ir, ig, ib));
 		}
 	}
-
+	
 	win->drawImage(image, s, spp);
 	win->update();
 }
@@ -111,7 +112,10 @@ void render(int width, int height, int spp, float fov, float aperture, int b_siz
 	checkCudaErrors(cudaMalloc((void **)&d_world, sizeof(hitable *)));
 	camera **d_camera;
 	checkCudaErrors(cudaMalloc((void **)&d_camera, sizeof(camera *)));
-	create_world(d_list, d_world, d_camera, nx, ny,fov,aperture, d_rand_state2);
+	atmosphere **d_atmosphere;
+	checkCudaErrors(cudaMalloc((void **)&d_atmosphere, sizeof(atmosphere *)));
+	
+	create_world(d_list, d_world, d_camera, d_atmosphere , nx, ny,fov,aperture, d_rand_state2);
 	checkCudaErrors(cudaGetLastError());
 	checkCudaErrors(cudaDeviceSynchronize());
 	
@@ -130,7 +134,7 @@ void render(int width, int height, int spp, float fov, float aperture, int b_siz
 
 		if (!rendering) break;
 
-		render_image(fb, nx, ny,tx, ty, ns, d_camera, d_world, d_rand_state);
+		render_image(fb, nx, ny,tx, ty, ns, d_camera, d_world, d_atmosphere, d_rand_state);
 		checkCudaErrors(cudaGetLastError());
 		checkCudaErrors(cudaDeviceSynchronize());
 		imageOutput(fb, s, width, height);

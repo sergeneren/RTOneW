@@ -95,6 +95,9 @@
     <ClInclude Include="RTOneW\bvh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RTOneW\atmosphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="render_kernels.cu">

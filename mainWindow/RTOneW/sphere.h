@@ -68,8 +68,6 @@ __device__ bool sphere::bounding_box(float t0, float t1, aabb& box) const {
 
 
 
-
-
 class moving_sphere : public hitable {
 
 

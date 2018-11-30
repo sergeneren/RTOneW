@@ -155,6 +155,7 @@
       <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_3DCORE_LIB;QT_3DANIMATION_LIB;QT_3DEXTRAS_LIB;QT_3DINPUT_LIB;QT_3DLOGIC_LIB;QT_3DRENDER_LIB;QT_CHARTS_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;QT_DATAVISUALIZATION_LIB;QT_GAMEPAD_LIB;QT_GUI_LIB;QT_HELP_LIB;QT_UITOOLS_LIB;QT_WIDGETS_LIB;QT_WINEXTRAS_LIB;_MBCS</Define>
     </QtMoc>
     <ClInclude Include="RTOneW\aabb.h" />
+    <ClInclude Include="RTOneW\atmosphere.h" />
     <ClInclude Include="RTOneW\bvh.h" />
     <ClInclude Include="RTOneW\camera.h" />
     <ClInclude Include="RTOneW\core.h" />

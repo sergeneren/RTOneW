@@ -12,7 +12,7 @@
 #include "hitable_list.h"
 #include "camera.h"
 #include "material.h"
-
+#include "atmosphere.h"
 
 void imageOutput(vec3 *pix, int s, int width, int height);
 void process_image(vec3 *pix, int s, int width, int height);

@@ -59,14 +59,15 @@ __device__ float schlick(float cosine, float ref_idx) {
 class diffuse_light : public material {
 
 public:
-
+	__device__ diffuse_light(const vec3& e) :emit(e) {};
 	__device__ virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered, curandState *local_rand_state) const {
 
-		return false;
+		attenuation = emit;
+		return true;
 
 	}
 
-
+	vec3 emit;
 };
 
 
@@ -168,6 +169,10 @@ public:
 	float ref_idx; 
 
 };
+
+
+
+
 
 
 #endif // !MATERIALH

@@ -14,14 +14,15 @@
 extern "C" void check_cuda(cudaError_t result, char const *const func, const char *const file, int const line);
 
 
-__device__ vec3 color(const ray& r, hitable **world, curandState *local_rand_state) {
+__device__ vec3 color(const ray& r, hitable **world, atmosphere **sky,curandState *local_rand_state) {
 	ray cur_ray = r;
 	vec3 cur_attenuation = vec3(1.0, 1.0, 1.0);
 	for (int i = 0; i < 50; i++) {
 		hit_record rec;
+		ray scattered;
+		vec3 attenuation;
 		if ((*world)->hit(cur_ray, 0.001f, FLT_MAX, rec)) {
-			ray scattered;
-			vec3 attenuation;
+			
 			if (rec.mat_ptr->scatter(cur_ray, rec, attenuation, scattered, local_rand_state)) {
 				cur_attenuation *= attenuation;
 				cur_ray = scattered;
@@ -31,10 +32,12 @@ __device__ vec3 color(const ray& r, hitable **world, curandState *local_rand_sta
 			}
 		}
 		else {
-			vec3 unit_direction = unit_vector(cur_ray.direction());
-			float t = 0.5f*(unit_direction.y() + 1.0f);
-			vec3 c = (1.0f - t)*vec3(1.0, 1.0, 1.0) + t * vec3(0.5, 0.7, 1.0);
-			return cur_attenuation * c;
+			float t0, t1, tmax = 10e07;
+			if (raySphereIntersect(cur_ray.origin(), cur_ray.direction(), (*sky)->earthRadius ,t0, t1) && t1>0);
+			if (t0 > tmax) tmax = t0;
+			vec3 sky_color = (*sky)->computeIncidentLight(cur_ray.origin(), cur_ray.direction(), 0 , tmax);
+			
+			return cur_attenuation + sky_color;
 		}
 	}
 	return vec3(0.0, 0.0, 0.0); // exceeded recursion
@@ -65,7 +68,7 @@ __global__ void render_init_kernel(int max_x, int max_y, curandState *rand_state
 	curand_init(1984, pixel_index, 0, &rand_state[pixel_index]);
 }
 
-__global__ void render_image_kernel(vec3 *fb, int max_x, int max_y, int ns, camera **cam, hitable **world, curandState *rand_state) {
+__global__ void render_image_kernel(vec3 *fb, int max_x, int max_y, int ns, camera **cam, hitable **world, atmosphere **sky, curandState *rand_state) {
 	int i = threadIdx.x + blockIdx.x * blockDim.x;
 	int j = threadIdx.y + blockIdx.y * blockDim.y;
 	if ((i >= max_x) || (j >= max_y)) return;
@@ -76,7 +79,7 @@ __global__ void render_image_kernel(vec3 *fb, int max_x, int max_y, int ns, came
 	float u = float(i + vanDerCorput(&local_rand_state)) / float(max_x);
 	float v = float(j + vanDerCorput(&local_rand_state,3)) / float(max_y);
 	ray r = (*cam)->get_ray(u, v, &local_rand_state);
-	col = color(r, world, &local_rand_state);
+	col = color(r, world,sky, &local_rand_state);
 
 	rand_state[pixel_index] = local_rand_state;
 	//col /= float(ns);
@@ -87,20 +90,20 @@ __global__ void render_image_kernel(vec3 *fb, int max_x, int max_y, int ns, came
 }
 
 
-__global__ void create_world_kernel(hitable **d_list, hitable **d_world, camera **d_camera, int nx, int ny, float fov, float aperture, curandState *rand_state) {
+__global__ void create_world_kernel(hitable **d_list, hitable **d_world, camera **d_camera, atmosphere **d_atmosphere,int nx, int ny, float fov, float aperture, curandState *rand_state) {
 	if (threadIdx.x == 0 && blockIdx.x == 0) {
 		curandState local_rand_state = *rand_state;
 
 		d_list[0] = new sphere(vec3(0, 0, 0), 0.5f, new lambertian(vec3(0.9, 0, 0)));
 		d_list[1] = new sphere(vec3(0, -100.5, -1), 100.0f, new lambertian(vec3(0.0, 0.9, 0.9)));
-		d_list[2] = new sphere(vec3(0, 0, -1), 0.5f, new metal(vec3(0.9, 0.9, 0.9), 0.1f));
+		d_list[2] = new sphere(vec3(0, 0, -1), 0.5f, new lambertian(vec3(1, 1, 1)));
 		d_list[3] = new sphere(vec3(0, 0, 1), 0.5f, new dielectric(1.333));
 
 		*d_world = new hitable_list(d_list, 4);
 
 		*rand_state = local_rand_state;
 
-		vec3 lookfrom(-2, 0, 4);
+		vec3 lookfrom(0, 1000, 0);
 		vec3 lookat(0, 0, 0);
 		float dist_to_focus = (lookfrom - lookat).length();
 
@@ -111,6 +114,8 @@ __global__ void create_world_kernel(hitable **d_list, hitable **d_world, camera 
 			float(nx) / float(ny),
 			aperture,
 			dist_to_focus, 0.0f, 1.0f);
+
+		*d_atmosphere = new atmosphere(vec3(0, 1, 0));
 	}
 }
 
@@ -155,20 +160,20 @@ extern "C" void render_init(int nx, int ny, int tx, int ty, curandState *rand_st
 
 
 
-extern "C" void render_image(vec3 *fb, int nx, int ny, int tx, int ty, int ns, camera **cam, hitable **world, curandState *rand_state) {
+extern "C" void render_image(vec3 *fb, int nx, int ny, int tx, int ty, int ns, camera **cam, hitable **world, atmosphere **sky,curandState *rand_state) {
 	
 	dim3 blocks(nx / tx + 1, ny / ty + 1);
 	dim3 threads(tx, ty);
 
-	render_image_kernel << <blocks, threads >> > (fb, nx, ny, ns, cam, world, rand_state);
+	render_image_kernel << <blocks, threads >> > (fb, nx, ny, ns, cam, world, sky, rand_state);
 
 
 }
 
 
-extern "C" void create_world(hitable **d_list, hitable **d_world, camera **d_camera, int nx, int ny, float fov, float aperture, curandState *rand_state) {
+extern "C" void create_world(hitable **d_list, hitable **d_world, camera **d_camera, atmosphere **d_atmosphere, int nx, int ny, float fov, float aperture, curandState *rand_state) {
 
-	create_world_kernel <<<1, 1 >>> (d_list, d_world, d_camera, nx, ny, fov, aperture, rand_state);
+	create_world_kernel <<<1, 1 >>> (d_list, d_world, d_camera, d_atmosphere ,nx, ny, fov, aperture, rand_state);
 
 }
 

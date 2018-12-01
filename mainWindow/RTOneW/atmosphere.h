@@ -98,7 +98,7 @@ __device__ bool raySphereIntersect(const vec3& orig, const vec3& dir, const floa
 __device__ vec3 atmosphere::computeIncidentLight(const vec3& orig, const vec3& dir, float tmin, float tmax) const
 {
 	float t0, t1;
-	if (!raySphereIntersect(orig, dir, atmosphereRadius, t0, t1) || t1 < 0) return 0;
+	if (!raySphereIntersect(orig, dir, atmosphereRadius, t0, t1) || t1 < 0) return vec3(1,0,0);
 	if (t0 > tmin && t0 > 0) tmin = t0;
 	if (t1 < tmax) tmax = t1;
 	uint32_t numSamples = 16;

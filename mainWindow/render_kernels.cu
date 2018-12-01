@@ -14,9 +14,10 @@
 extern "C" void check_cuda(cudaError_t result, char const *const func, const char *const file, int const line);
 
 
-__device__ vec3 color(const ray& r, hitable **world, atmosphere **sky,curandState *local_rand_state) {
+__device__ vec3 color(const ray& r, hitable **world, atmosphere **sky, curandState *local_rand_state) {
 	ray cur_ray = r;
 	vec3 cur_attenuation = vec3(1.0, 1.0, 1.0);
+	
 	for (int i = 0; i < 50; i++) {
 		hit_record rec;
 		ray scattered;
@@ -32,12 +33,13 @@ __device__ vec3 color(const ray& r, hitable **world, atmosphere **sky,curandStat
 			}
 		}
 		else {
-			float t0, t1, tmax = 10e07;
-			if (raySphereIntersect(cur_ray.origin(), cur_ray.direction(), (*sky)->earthRadius ,t0, t1) && t1>0);
-			if (t0 > tmax) tmax = t0;
-			vec3 sky_color = (*sky)->computeIncidentLight(cur_ray.origin(), cur_ray.direction(), 0 , tmax);
-			
-			return cur_attenuation + sky_color;
+			float t0, t1, tmax = FLT_MAX;
+			vec3 orig = vec3(cur_ray.origin().x(), cur_ray.origin().y()+ (*sky)->earthRadius+10, cur_ray.origin().z());
+			if (raySphereIntersect(orig, unit_vector(cur_ray.direction()), (*sky)->earthRadius, t0, t1) && t1 > 0) tmax = ffmax(0.0f, t0);
+			vec3 sky_color;
+			if (t0 < 0) sky_color = (*sky)->computeIncidentLight(orig, unit_vector(cur_ray.direction()), 0, tmax);
+			else sky_color =  vec3(.004, .002, 0);
+			return cur_attenuation * sky_color;
 		}
 	}
 	return vec3(0.0, 0.0, 0.0); // exceeded recursion
@@ -83,9 +85,10 @@ __global__ void render_image_kernel(vec3 *fb, int max_x, int max_y, int ns, came
 
 	rand_state[pixel_index] = local_rand_state;
 	//col /= float(ns);
-	col[0] = sqrt(col[0]);
-	col[1] = sqrt(col[1]);
-	col[2] = sqrt(col[2]);
+	col[0] = col[0] < 1.413f ? pow(col[0] * 1.38317f, 1.0f / 2.2f) : 1.0f - exp(-col[0]);
+	col[1] = col[1] < 1.413f ? pow(col[1] * 1.38317f, 1.0f / 2.2f) : 1.0f - exp(-col[1]);
+	col[2] = col[2] < 1.413f ? pow(col[2] * 1.38317f, 1.0f / 2.2f) : 1.0f - exp(-col[2]);
+	
 	fb[pixel_index] += col;
 }
 
@@ -94,16 +97,16 @@ __global__ void create_world_kernel(hitable **d_list, hitable **d_world, camera 
 	if (threadIdx.x == 0 && blockIdx.x == 0) {
 		curandState local_rand_state = *rand_state;
 
-		d_list[0] = new sphere(vec3(0, 0, 0), 0.5f, new lambertian(vec3(0.9, 0, 0)));
+		d_list[0] = new sphere(vec3(0,0, 0), 0.5f, new lambertian(vec3(0.9, 0, 0)));
 		d_list[1] = new sphere(vec3(0, -100.5, -1), 100.0f, new lambertian(vec3(0.0, 0.9, 0.9)));
-		d_list[2] = new sphere(vec3(0, 0, -1), 0.5f, new lambertian(vec3(1, 1, 1)));
+		d_list[2] = new sphere(vec3(0, 0, -1), 0.5f, new metal(vec3(1, 1, 1),0));
 		d_list[3] = new sphere(vec3(0, 0, 1), 0.5f, new dielectric(1.333));
 
 		*d_world = new hitable_list(d_list, 4);
 
 		*rand_state = local_rand_state;
 
-		vec3 lookfrom(0, 1000, 0);
+		vec3 lookfrom(-4, 0, 4);
 		vec3 lookat(0, 0, 0);
 		float dist_to_focus = (lookfrom - lookat).length();
 

@@ -256,9 +256,9 @@ public:
         label_6->setText(QApplication::translate("mainWindowClass", "Aperture", nullptr));
         width->setText(QApplication::translate("mainWindowClass", "512", nullptr));
         height->setText(QApplication::translate("mainWindowClass", "512", nullptr));
-        spp->setText(QApplication::translate("mainWindowClass", "10", nullptr));
+        spp->setText(QApplication::translate("mainWindowClass", "1", nullptr));
         fov->setText(QApplication::translate("mainWindowClass", "35", nullptr));
-        aperture->setText(QApplication::translate("mainWindowClass", "0.25", nullptr));
+        aperture->setText(QApplication::translate("mainWindowClass", "0", nullptr));
         menuFile->setTitle(QApplication::translate("mainWindowClass", "File", nullptr));
         menuView->setTitle(QApplication::translate("mainWindowClass", "View", nullptr));
     } // retranslateUi

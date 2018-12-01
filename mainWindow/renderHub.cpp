@@ -7,6 +7,8 @@ mainWindow *win;
 bool rendering = false;
 int spp;
 
+#define clamp(val, x,y) (ffmax(x, ffmin(val,y)))
+
 
 void setInstanceForRenderDistribution(mainWindow* w) {
 	win = w;
@@ -21,14 +23,14 @@ void imageOutput(vec3 **pix, int s, int width, int height) {
 void process_image(vec3 **pix, int s, int width, int height) {
 	
 	QImage image(width, height, QImage::Format_RGB32);
-	
+
 	#pragma omp parallell for
 	for (int row = 0; row <height; row++) {
 		for (int col = 0; col < width; col++) {
 
-			int ir = int(255.99*pix[col][row][0] / s);
-			int ig = int(255.99*pix[col][row][1] / s);
-			int ib = int(255.99*pix[col][row][2] / s);
+			int ir = int(255* pix[col][row][0] / s);
+			int ig = int(255* pix[col][row][1] / s);
+			int ib = int(255* pix[col][row][2] / s);
 
 			image.setPixel(col, (height - 1) - row, qRgb(ir, ig, ib));
 		}
@@ -40,6 +42,7 @@ void process_image(vec3 **pix, int s, int width, int height) {
 vec3 color(const ray& r, hitable *world, int depth) {
 
 	hit_record rec;
+	atmosphere sky;
 
 	if (world->hit(r, 0.001, FLT_MAX, rec)) {
 		ray scattered;
@@ -51,12 +54,12 @@ vec3 color(const ray& r, hitable *world, int depth) {
 		else return vec3(0, 0, 0);
 	}
 	else {
-		vec3 unit_direction = unit_vector(r.direction());
-		float t = 0.5*(unit_direction.y() + 1.0);
-
-		return (1.0 - t)*vec3(1.0, 1.0, 1.0) + t * vec3(0.5, 0.7, 1.0);
+		float t0, t1, tmax = FLT_MAX;
+		vec3 orig = vec3(r.origin().x(), r.origin().y() + sky.earthRadius + 2000, r.origin().z());
+		if (raySphereIntersect(orig, unit_vector(r.direction()), sky.earthRadius, t0, t1) && t1 > 0) tmax = std::max(0.0f, t0);
+		vec3 sky_color = sky.computeIncidentLight(orig, unit_vector(r.direction()), 0, tmax);
+		return sky_color;
 	}
-
 }
 
 void render(int width, int height, int spp, float fov, float aperture) {
@@ -75,18 +78,18 @@ void render(int width, int height, int spp, float fov, float aperture) {
 
 
 	hitable *list[4];
-	list[0] = new sphere(vec3(0, 0, 0), 0.5, new lambertian(vec3(0.9, 0, 0)));
+	list[0] = new sphere(vec3(0, 0, 0), 0.5, new lambertian(vec3(1, 1, 1)));
 	list[1] = new sphere(vec3(0, -100.5, -1), 100, new lambertian(vec3(0.0, 0.9, 0.9)));
 	list[2] = new sphere(vec3(0, 0, -1), 0.5, new metal(vec3(0.9, 0.9, 0.9), .1));
 	list[3] = new sphere(vec3(0, 0, 1), 0.5, new dielectric(1.333));
 
 	hitable *world = new hitable_list(list, 4);
 
-	vec3 lookfrom(-1, 0, 4);
-	vec3 lookat(0, 0, 0);
+	vec3 lookfrom(-4, 2, -4);
+	vec3 lookat(0, -0.6, 0);
 	float dist = (lookat - lookfrom).length();
 
-	camera cam(lookfrom, lookat, vec3(0, 1, 0), fov, float(width) / float(height), aperture, dist, 0.0,1.0);
+	camera cam(lookfrom, lookat, vec3(0, 1, 0), fov, float(width) / float(height), aperture, dist, 0.0, 0.0);
 	
 	for (int s = 1; s <= spp; s++) {
 

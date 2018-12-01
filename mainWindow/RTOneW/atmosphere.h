@@ -66,6 +66,7 @@ bool solveQuadratic(float a, float b, float c, float& x1, float& x2)
 		x1 = 0; x2 = sqrt(-c / a);
 		return true;
 	}
+	
 	float discr = b * b - 4 * a * c;
 
 	if (discr < 0) return false;
@@ -73,7 +74,7 @@ bool solveQuadratic(float a, float b, float c, float& x1, float& x2)
 	float q = (b < 0.f) ? -0.5f * (b - sqrt(discr)) : -0.5f * (b + sqrt(discr));
 	x1 = q / a;
 	x2 = c / q;
-
+	
 	return true;
 }
 
@@ -81,13 +82,14 @@ bool solveQuadratic(float a, float b, float c, float& x1, float& x2)
 
 bool raySphereIntersect(const vec3& orig, const vec3& dir, const float& radius, float& t0, float& t1) {
 
-	float A = dir.squared_length();
+	float A = dir.x() * dir.x() + dir.y() * dir.y() + dir.z() * dir.z();
 	float B = 2 * (dir.x() * orig.x() + dir.y() * orig.y() + dir.z() * orig.z());
 	float C = orig.x() * orig.x() + orig.y() * orig.y() + orig.z() * orig.z() - radius * radius;
 
 	if (!solveQuadratic(A, B, C, t0, t1)) return false;
-
+	//if (t0>t1) std::cout << t1 << "\n";
 	if (t0 > t1) std::swap(t0, t1);
+	
 	return true;
 }
 
@@ -137,7 +139,7 @@ vec3 atmosphere::computeIncidentLight(const vec3& orig, const vec3& dir, float t
 		}
 		tCurrent += segmentLength;
 	}
-
+	
 	// [comment]
 	// We use a magic number here for the intensity of the sun (20). We will make it more
 	// scientific in a future revision of this lesson/code

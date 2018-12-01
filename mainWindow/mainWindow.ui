@@ -292,7 +292,7 @@
      <item>
       <widget class="QLineEdit" name="spp">
        <property name="text">
-        <string>10</string>
+        <string>1</string>
        </property>
       </widget>
      </item>
@@ -318,7 +318,7 @@
      <item>
       <widget class="QLineEdit" name="aperture">
        <property name="text">
-        <string>0.25</string>
+        <string>0</string>
        </property>
       </widget>
      </item>

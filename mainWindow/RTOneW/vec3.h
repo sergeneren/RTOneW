@@ -15,7 +15,7 @@
 #include <curand_kernel.h>
 
 #define RND (curand_uniform(&local_rand_state))
-#define _USE_MATH_DEFINES
+//#define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdlib.h>
 #include <iostream>

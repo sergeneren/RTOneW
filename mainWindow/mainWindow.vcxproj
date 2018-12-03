@@ -148,6 +148,7 @@
     <QtRcc Include="mainWindow.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RTOneW\texture.h" />
     <QtMoc Include="customGV.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\Qt3DCore;$(QTDIR)\include\Qt3DAnimation;$(QTDIR)\include\Qt3DExtras;$(QTDIR)\include\Qt3DInput;$(QTDIR)\include\Qt3DLogic;$(QTDIR)\include\Qt3DRender;$(QTDIR)\include\QtCharts;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtDataVisualization;$(QTDIR)\include\QtGamepad;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtHelp;$(QTDIR)\include\QtUiTools;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtWinExtras</IncludePath>
       <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_3DCORE_LIB;QT_3DANIMATION_LIB;QT_3DEXTRAS_LIB;QT_3DINPUT_LIB;QT_3DLOGIC_LIB;QT_3DRENDER_LIB;QT_CHARTS_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;QT_DATAVISUALIZATION_LIB;QT_GAMEPAD_LIB;QT_GUI_LIB;QT_HELP_LIB;QT_UITOOLS_LIB;QT_WIDGETS_LIB;QT_WINEXTRAS_LIB;_MBCS</Define>

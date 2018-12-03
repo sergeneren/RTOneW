@@ -31,8 +31,12 @@ public:
 
 			float t0 = (min()[a] - r.origin()[a]) * invD;
 			float t1 = (max()[a] - r.origin()[a]) * invD;
-			if (invD < 0.0f) std::swap(t0, t1);
 
+			if (invD < 0.0f) {
+				float tempt = t1;
+				t1 = t0;
+				t0 = tempt;
+			}
 			tmin = t0>tmin ? t0: tmin;
 			tmax = t1<tmax ? t1: tmax;
 

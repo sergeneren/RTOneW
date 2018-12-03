@@ -34,11 +34,11 @@ __device__ vec3 color(const ray& r, hitable **world, atmosphere **sky, curandSta
 		}
 		else {
 			float t0, t1, tmax = FLT_MAX;
-			vec3 orig = vec3(cur_ray.origin().x(), cur_ray.origin().y()+ (*sky)->earthRadius+10, cur_ray.origin().z());
+			vec3 orig = vec3(cur_ray.origin().x(), cur_ray.origin().y()+ (*sky)->earthRadius+2000, cur_ray.origin().z());
 			if (raySphereIntersect(orig, unit_vector(cur_ray.direction()), (*sky)->earthRadius, t0, t1) && t1 > 0) tmax = ffmax(0.0f, t0);
 			vec3 sky_color;
-			if (t0 < 0) sky_color = (*sky)->computeIncidentLight(orig, unit_vector(cur_ray.direction()), 0, tmax);
-			else sky_color =  vec3(.004, .002, 0);
+			/*if (t0 < 0)*/ sky_color = (*sky)->computeIncidentLight(orig, unit_vector(cur_ray.direction()), 0, tmax);
+			//else sky_color =  vec3(.004, .002, 0);
 			return cur_attenuation * sky_color;
 		}
 	}
@@ -97,8 +97,11 @@ __global__ void create_world_kernel(hitable **d_list, hitable **d_world, camera 
 	if (threadIdx.x == 0 && blockIdx.x == 0) {
 		curandState local_rand_state = *rand_state;
 
-		d_list[0] = new sphere(vec3(0,0, 0), 0.5f, new lambertian(vec3(0.9, 0, 0)));
-		d_list[1] = new sphere(vec3(0, -100.5, -1), 100.0f, new lambertian(vec3(0.0, 0.9, 0.9)));
+		texture *red_texture = new texture(vec3(0.9, 0,0));
+		texture *turqoise_texture = new texture(vec3(0, 0.9, 0.9));
+
+		d_list[0] = new sphere(vec3(0,0, 0), 0.5f, new lambertian(red_texture));
+		d_list[1] = new sphere(vec3(0, -100.5, -1), 100.0f, new lambertian(turqoise_texture));
 		d_list[2] = new sphere(vec3(0, 0, -1), 0.5f, new metal(vec3(1, 1, 1),0));
 		d_list[3] = new sphere(vec3(0, 0, 1), 0.5f, new dielectric(1.333));
 

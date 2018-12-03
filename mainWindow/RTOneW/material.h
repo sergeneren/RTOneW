@@ -3,16 +3,9 @@
 #define MATERIALH
 #include "ray.h"
 #include "hitable.h"
+#include "texture.h"
 
 #define RANDVEC3 vec3(curand_uniform(local_rand_state),curand_uniform(local_rand_state),curand_uniform(local_rand_state))
-
-
-class material
-{
-public:
-	__device__ virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered, curandState *local_rand_state) const = 0;
-	__device__ virtual vec3 emitted(float u, float v, const vec3& p) const { return vec3(0, 0, 0); }
-};
 
 
 __device__ vec3 random_in_unit_sphere(curandState *local_rand_state) {
@@ -56,6 +49,15 @@ __device__ float schlick(float cosine, float ref_idx) {
 
 }
 
+class material
+{
+public:
+	__device__ virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered, curandState *local_rand_state) const = 0;
+	__device__ virtual vec3 emitted(float u, float v, const vec3& p) const { return vec3(0, 0, 0); }
+};
+
+
+
 class diffuse_light : public material {
 
 public:
@@ -75,16 +77,16 @@ class lambertian : public material {
 
 public:
 
-	__device__ lambertian(const vec3& a):albedo(a) {};
+	__device__ lambertian(texture *a):albedo(a) {};
 	__device__ virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered, curandState *local_rand_state) const {
 
 		vec3 target = rec.p + rec.normal + random_in_unit_sphere(local_rand_state);
 		scattered = ray(rec.p, target - rec.p);
-		attenuation = albedo; 
+		attenuation = albedo->value(0,0,rec.p); 
 		return true; 
 
 	}
-	vec3 albedo;
+	texture *albedo;
 
 	
 };

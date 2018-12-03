@@ -7,6 +7,7 @@
 
 #include "ray.h"
 #include "vec3.h"
+#include "bvh.h"
 #include "hitable.h"
 #include "sphere.h"
 #include "hitable_list.h"

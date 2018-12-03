@@ -97,8 +97,8 @@ __global__ void create_world_kernel(hitable **d_list, hitable **d_world, camera 
 	if (threadIdx.x == 0 && blockIdx.x == 0) {
 		curandState local_rand_state = *rand_state;
 
-		texture *red_texture = new texture(vec3(0.9, 0,0));
-		texture *turqoise_texture = new texture(vec3(0, 0.9, 0.9));
+		constant_texture *red_texture = new constant_texture(vec3(0.9, 0,0));
+		constant_texture *turqoise_texture = new constant_texture(vec3(0, 0.9, 0.9));
 
 		d_list[0] = new sphere(vec3(0,0, 0), 0.5f, new lambertian(red_texture));
 		d_list[1] = new sphere(vec3(0, -100.5, -1), 100.0f, new lambertian(turqoise_texture));

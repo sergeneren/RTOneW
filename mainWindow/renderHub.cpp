@@ -76,10 +76,11 @@ void render(int width, int height, int spp, float fov, float aperture) {
 		}
 	}
 
+	constant_texture *red = new constant_texture(vec3(1, 0, 0));
 
 	hitable *list[4];
-	list[0] = new sphere(vec3(0, 0, 0), 0.5, new lambertian(vec3(1, 1, 1)));
-	list[1] = new sphere(vec3(0, -100.5, -1), 100, new lambertian(vec3(0.0, 0.9, 0.9)));
+	list[0] = new sphere(vec3(0, 0, 0), 0.5, new lambertian(red));
+	list[1] = new sphere(vec3(0, -100.5, -1), 100, new lambertian(red));
 	list[2] = new sphere(vec3(0, 0, -1), 0.5, new metal(vec3(0.9, 0.9, 0.9), .1));
 	list[3] = new sphere(vec3(0, 0, 1), 0.5, new dielectric(1.333));
 

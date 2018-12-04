@@ -104,6 +104,12 @@
     <ClInclude Include="RTOneW\rectangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RTOneW\box.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RTOneW\medium.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="render_kernels.cu">

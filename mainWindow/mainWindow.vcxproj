@@ -148,6 +148,8 @@
     <QtRcc Include="mainWindow.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RTOneW\box.h" />
+    <ClInclude Include="RTOneW\medium.h" />
     <ClInclude Include="RTOneW\rectangle.h" />
     <ClInclude Include="RTOneW\texture.h" />
     <QtMoc Include="customGV.h">

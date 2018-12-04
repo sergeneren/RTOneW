@@ -142,7 +142,7 @@ __device__ vec3 atmosphere::computeIncidentLight(const vec3& orig, const vec3& d
 	// We use a magic number here for the intensity of the sun (20). We will make it more
 	// scientific in a future revision of this lesson/code
 	// [/comment]
-	return (sumR * betaR * phaseR + sumM * betaM * phaseM) * 20;
+	return (sumR * betaR * phaseR + sumM * betaM * phaseM) * 1;
 }
 
 

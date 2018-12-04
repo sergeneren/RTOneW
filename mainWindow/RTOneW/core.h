@@ -11,6 +11,8 @@
 #include "hitable.h"
 #include "sphere.h"
 #include "rectangle.h"
+#include "box.h"
+#include "medium.h"
 #include "hitable_list.h"
 #include "camera.h"
 #include "material.h"

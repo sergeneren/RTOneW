@@ -106,9 +106,9 @@ void mainWindow::hoverSlot(bool enter, QPointF *pos, QPoint *f) {
 			ui.detail_frame->show();
 			QColor col = image.pixel(pos->x(), pos->y());
 
-			ui.label_red->setText(QString::number(float(col.red()) / 255.9));
-			ui.label_green->setText(QString::number(float(col.green()) / 255.9));
-			ui.label_blue->setText(QString::number(float(col.blue()) / 255.9));
+			ui.label_red->setText(QString::number(float(col.red()) / 255));
+			ui.label_green->setText(QString::number(float(col.green()) / 255));
+			ui.label_blue->setText(QString::number(float(col.blue()) / 255));
 
 			ui.detailView->setTransform(QTransform(5, 0, 0, 0, 5, 0, 0, 0, 1));
 			QImage detail_image(10, 10, QImage::Format_RGB32);

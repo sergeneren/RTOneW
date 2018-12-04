@@ -28,11 +28,11 @@ __device__ vec3 color(const ray& r, hitable **world, atmosphere **sky, curandSta
 			vec3 emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
 			
 			if (rec.mat_ptr->scatter(cur_ray, rec, attenuation, scattered, local_rand_state)) {
-				cur_attenuation *= attenuation;
+				cur_attenuation *=  attenuation;
 				cur_ray = scattered;
 			}
 			else {
-				return emitted * attenuation;
+				return emitted * cur_attenuation;
 				
 			}
 		}
@@ -92,9 +92,9 @@ __global__ void render_image_kernel(vec3 *fb, int max_x, int max_y, int ns, came
 
 	rand_state[pixel_index] = local_rand_state;
 	//col /= float(ns);
-	col[0] = col[0] < 1.413f ? pow(col[0] * 1.38317f, 1.0f / 2.2f) : 1.0f - exp(-col[0]);
-	col[1] = col[1] < 1.413f ? pow(col[1] * 1.38317f, 1.0f / 2.2f) : 1.0f - exp(-col[1]);
-	col[2] = col[2] < 1.413f ? pow(col[2] * 1.38317f, 1.0f / 2.2f) : 1.0f - exp(-col[2]);
+	//col[0] = col[0] < 1.413f ? pow(col[0] * 20.38317f, 1.0f / 2.2f) : 10.0f - exp(-col[0]);
+	//col[1] = col[1] < 1.413f ? pow(col[1] * 20.38317f, 1.0f / 2.2f) : 10.0f - exp(-col[1]);
+	//col[2] = col[2] < 1.413f ? pow(col[2] * 20.38317f, 1.0f / 2.2f) : 10.0f - exp(-col[2]);
 	
 	fb[pixel_index] += col;
 }
@@ -106,23 +106,30 @@ __global__ void create_world_kernel(hitable **d_list, hitable **d_world, camera 
 
 		constant_texture *red_texture = new constant_texture(vec3(1, 0,0));
 		constant_texture *white_texture = new constant_texture(vec3(1, 1, 1));
-		constant_texture *light_texture = new constant_texture(vec3(15, 15, 15));
-		constant_texture *turqoise_texture = new constant_texture(vec3(0, 0.9, 0.9));
-		constant_texture *green_texture = new constant_texture(vec3(0, 0.9, 0.0));
+		constant_texture *black_texture = new constant_texture(vec3(0, 0, 0));
+		constant_texture *light_texture = new constant_texture(vec3(1, 1, 1));
+		constant_texture *turqoise_texture = new constant_texture(vec3(0, 1, 1));
+		constant_texture *green_texture = new constant_texture(vec3(0, 1, 0.0));
 		checker_texture *checker_tex = new checker_texture(red_texture, green_texture);
 
 		diffuse_light *light = new diffuse_light(checker_tex, 1);
-		diffuse_light *white_light = new diffuse_light(light_texture, 10);
+		diffuse_light *white_light = new diffuse_light(light_texture, 5);
 		lambertian *white_lamb = new lambertian(white_texture);
 
 		d_list[0] = new flip_normals( new yz_rect(0,555,0,555,555,new lambertian(green_texture)));
 		d_list[1] = new yz_rect(0, 555, 0, 555, 0, new lambertian(red_texture));
-		d_list[2] = new xz_rect(213, 343, 227, 332, 554, white_light);
+		d_list[2] = new xz_rect(113, 443, 127, 432, 554, white_light);
 		d_list[3] = new flip_normals(new xz_rect(0, 555, 0, 555, 555, white_lamb));
 		d_list[4] = new xz_rect(0, 555, 0, 555, 0, white_lamb);
 		d_list[5] = new flip_normals(new xy_rect(0, 555, 0, 555, 555, white_lamb));
+		
+		hitable *b1 = new box(vec3(130,0,65), vec3(295,165,230), white_lamb);
+		hitable *b2 = new box(vec3(265,0,295), vec3(430,330,460), white_lamb);
+		
+		d_list[6] = new constant_medium(b1, 0.01, white_texture, &local_rand_state);
+		d_list[7] = new constant_medium(b2, 0.01, black_texture, &local_rand_state);
 
-		*d_world = new hitable_list(d_list, 6);
+		*d_world = new hitable_list(d_list, 8);
 
 		*rand_state = local_rand_state;
 
@@ -143,7 +150,7 @@ __global__ void create_world_kernel(hitable **d_list, hitable **d_world, camera 
 }
 
 __global__ void free_world_kernel(hitable **d_list, hitable **d_world, camera **d_camera) {
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 8; i++) {
 		delete ((sphere *)d_list[i])->mat_ptr;
 		delete d_list[i];
 	}

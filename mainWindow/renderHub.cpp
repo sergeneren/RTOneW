@@ -59,9 +59,9 @@ void process_image(vec3 *pix, int s, int width, int height) {
 	for (int row = height - 1; row >= 0; row--) {
 		for (int col = 0; col < width; col++) {
 			size_t pixel_index = row * width + col;
-			int ir = int(255.99*pix[pixel_index][0] * s_inv);
-			int ig = int(255.99*pix[pixel_index][1] * s_inv);
-			int ib = int(255.99*pix[pixel_index][2] * s_inv);
+			int ir = std::min(int(255.99*pix[pixel_index][0] * s_inv),255);
+			int ig = std::min(int(255.99*pix[pixel_index][1] * s_inv), 255);
+			int ib = std::min(int(255.99*pix[pixel_index][2] * s_inv), 255);
 
 			image.setPixel(col, (height - 1) - row, qRgb(ir, ig, ib));
 		}

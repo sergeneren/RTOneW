@@ -139,6 +139,7 @@
     <ClInclude Include="RTOneW\material.h" />
     <ClInclude Include="RTOneW\plane.h" />
     <ClInclude Include="RTOneW\ray.h" />
+    <ClInclude Include="RTOneW\rect.h" />
     <ClInclude Include="RTOneW\sphere.h" />
     <ClInclude Include="RTOneW\texture.h" />
     <ClInclude Include="RTOneW\vec3.h" />

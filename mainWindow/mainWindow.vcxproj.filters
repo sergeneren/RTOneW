@@ -101,5 +101,8 @@
     <ClInclude Include="RTOneW\texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RTOneW\rect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

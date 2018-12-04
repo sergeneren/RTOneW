@@ -47,11 +47,12 @@ vec3 color(const ray& r, hitable *world, int depth) {
 	if (world->hit(r, 0.001, FLT_MAX, rec)) {
 		ray scattered;
 		vec3 attenuation;
+		vec3 emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
 		if (depth<50 && rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
-			return attenuation * color(scattered, world, depth + 1);
+			return emitted + attenuation * color(scattered, world, depth + 1);
 
 		}
-		else return vec3(0, 0, 0);
+		else return emitted;
 	}
 	else {
 		float t0, t1, tmax = FLT_MAX;
@@ -77,12 +78,13 @@ void render(int width, int height, int spp, float fov, float aperture) {
 	}
 
 	constant_texture *red = new constant_texture(vec3(1, 0, 0));
+	constant_texture *white = new constant_texture(vec3(1, 1, 1));
 
 	hitable *list[4];
 	list[0] = new sphere(vec3(0, 0, 0), 0.5, new lambertian(red));
 	list[1] = new sphere(vec3(0, -100.5, -1), 100, new lambertian(red));
 	list[2] = new sphere(vec3(0, 0, -1), 0.5, new metal(vec3(0.9, 0.9, 0.9), .1));
-	list[3] = new sphere(vec3(0, 0, 1), 0.5, new dielectric(1.333));
+	list[3] = new sphere(vec3(0, 0, 1), 0.5, new diffuse_light(white));
 
 	hitable *world = new hitable_list(list, 4);
 

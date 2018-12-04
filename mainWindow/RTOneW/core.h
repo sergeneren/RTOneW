@@ -10,6 +10,7 @@
 #include "bvh.h"
 #include "hitable.h"
 #include "sphere.h"
+#include "rectangle.h"
 #include "hitable_list.h"
 #include "camera.h"
 #include "material.h"

@@ -7,10 +7,6 @@
 
 // Atmosphere implementation from Scratch A Pixel
 
-
-
-
-
 #include "hitable.h"
 
 
@@ -38,7 +34,7 @@ public:
 	__device__ bool bounding_box(float t0, float t1, aabb& box) const;
 
 	vec3 sunDirection;     // The sun direction (normalized)
-	float earthRadius;      // In the paper this is usually Rg or Re (radius ground, eart)
+	float earthRadius;      // In the paper this is usually Rg or Re (radius ground, earth)
 	float atmosphereRadius; // In the paper this is usually R or Ra (radius atmosphere)
 	float Hr;               // Thickness of the atmosphere if density was uniform (Hr)
 	float Hm;               // Same as above but for Mie scattering (Hm)
@@ -105,7 +101,7 @@ __device__ vec3 atmosphere::computeIncidentLight(const vec3& orig, const vec3& d
 	uint32_t numSamplesLight = 8;
 	float segmentLength = (tmax - tmin) / numSamples;
 	float tCurrent = tmin;
-	vec3 sumR(0), sumM(0); // mie and rayleigh contribution
+	vec3 sumR(0), sumM(0); // mie and Rayleigh contribution
 	float opticalDepthR = 0, opticalDepthM = 0;
 	float mu = dot(dir, sunDirection); // mu in the paper which is the cosine of the angle between the sun direction and the ray direction
 	float phaseR = 3.f / (16.f * M_PI) * (1 + mu * mu);

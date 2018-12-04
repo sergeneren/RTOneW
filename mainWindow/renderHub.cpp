@@ -59,9 +59,9 @@ void process_image(vec3 *pix, int s, int width, int height) {
 	for (int row = height - 1; row >= 0; row--) {
 		for (int col = 0; col < width; col++) {
 			size_t pixel_index = row * width + col;
-			int ir = std::min(int(255.99*pix[pixel_index][0] * s_inv), 255);
-			int ig = std::min(int(255.99*pix[pixel_index][1] * s_inv), 255);
-			int ib = std::min(int(255.99*pix[pixel_index][2] * s_inv), 255);
+			int ir = int(255.99*pix[pixel_index][0] * s_inv);
+			int ig = int(255.99*pix[pixel_index][1] * s_inv);
+			int ib = int(255.99*pix[pixel_index][2] * s_inv);
 
 			image.setPixel(col, (height - 1) - row, qRgb(ir, ig, ib));
 		}
@@ -147,18 +147,22 @@ void render(int width, int height, int spp, float fov, float aperture, int b_siz
 	std::cerr << "took " << timer_seconds << " seconds.\n";
 
 
-
+	
 	// clean up
 	checkCudaErrors(cudaDeviceSynchronize());
-
+	
+	/*
 	free_world(d_list, d_world, d_camera);
+	
 	checkCudaErrors(cudaGetLastError());
+	
 	checkCudaErrors(cudaFree(d_camera));
+	
 	checkCudaErrors(cudaFree(d_world));
 	checkCudaErrors(cudaFree(d_list));
 	checkCudaErrors(cudaFree(d_rand_state));
 	checkCudaErrors(cudaFree(fb));
-
+	*/
 	cudaDeviceReset();
 
 	

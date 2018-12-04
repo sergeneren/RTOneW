@@ -148,6 +148,7 @@
     <QtRcc Include="mainWindow.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RTOneW\rectangle.h" />
     <ClInclude Include="RTOneW\texture.h" />
     <QtMoc Include="customGV.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\Qt3DCore;$(QTDIR)\include\Qt3DAnimation;$(QTDIR)\include\Qt3DExtras;$(QTDIR)\include\Qt3DInput;$(QTDIR)\include\Qt3DLogic;$(QTDIR)\include\Qt3DRender;$(QTDIR)\include\QtCharts;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtDataVisualization;$(QTDIR)\include\QtGamepad;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtHelp;$(QTDIR)\include\QtUiTools;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtWinExtras</IncludePath>
@@ -166,7 +167,7 @@
     <ClInclude Include="RTOneW\plane.h" />
     <ClInclude Include="RTOneW\ray.h" />
     <ClInclude Include="RTOneW\sphere.h" />
-    <ClCompile Include="RTOneW\vec3.h" />
+    <ClInclude Include="RTOneW\vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

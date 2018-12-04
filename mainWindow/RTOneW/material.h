@@ -61,15 +61,21 @@ public:
 class diffuse_light : public material {
 
 public:
-	__device__ diffuse_light(const vec3& e) :emit(e) {};
+	__device__ diffuse_light(base_texture *e, float s) :emit(e), scale(s) {};
 	__device__ virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered, curandState *local_rand_state) const {
 
-		attenuation = emit;
-		return true;
+		return false;
+
+	}
+	__device__ virtual vec3 emitted(float u, float v, const vec3& p) const {
+		vec3 col;
+		col = emit->value(u, v, p) * scale;
+		return col;
 
 	}
 
-	vec3 emit;
+	base_texture *emit;
+	float scale = 10; 
 };
 
 
@@ -77,16 +83,16 @@ class lambertian : public material {
 
 public:
 
-	__device__ lambertian(texture *a):albedo(a) {};
+	__device__ lambertian(base_texture *a):albedo(a) {};
 	__device__ virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered, curandState *local_rand_state) const {
 
 		vec3 target = rec.p + rec.normal + random_in_unit_sphere(local_rand_state);
 		scattered = ray(rec.p, target - rec.p);
-		attenuation = albedo->value(0,0,rec.p); 
+		attenuation = albedo->value(0,0, rec.p);
 		return true; 
 
 	}
-	texture *albedo;
+	base_texture *albedo;
 
 	
 };

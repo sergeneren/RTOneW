@@ -39,9 +39,6 @@
     <ClCompile Include="customGV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RTOneW\vec3.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="renderHub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -71,19 +68,10 @@
     <ClInclude Include="RTOneW\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RTOneW\hitable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RTOneW\hitable_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RTOneW\material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RTOneW\ray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RTOneW\sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RTOneW\plane.h">
@@ -98,7 +86,22 @@
     <ClInclude Include="RTOneW\atmosphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RTOneW\vec3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="RTOneW\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RTOneW\sphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RTOneW\material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RTOneW\hitable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RTOneW\rectangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

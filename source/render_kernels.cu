@@ -4,7 +4,7 @@
 */
 
 
-#include "RTOneW/core.h"
+#include "Core/core.h"
 #include <cuda_runtime.h>
 #include <curand_kernel.h>
 
@@ -176,9 +176,6 @@ extern "C" void rand_init(curandState *rand_state) {
 
 }
 
-
-
-
 extern "C" void render_init(int nx, int ny, int tx, int ty, curandState *rand_state) {
 
 	dim3 blocks(nx / tx + 1, ny / ty + 1);
@@ -187,8 +184,6 @@ extern "C" void render_init(int nx, int ny, int tx, int ty, curandState *rand_st
 
 
 }
-
-
 
 extern "C" void render_image(vec3 *fb, int nx, int ny, int tx, int ty, int ns, camera **cam, hitable **world, atmosphere **sky,curandState *rand_state) {
 	
@@ -199,7 +194,6 @@ extern "C" void render_image(vec3 *fb, int nx, int ny, int tx, int ty, int ns, c
 
 
 }
-
 
 extern "C" void create_world(hitable **d_list, hitable **d_world, camera **d_camera, atmosphere **d_atmosphere, int nx, int ny, float fov, float aperture, curandState *rand_state) {
 

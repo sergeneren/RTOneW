@@ -1,6 +1,6 @@
 //#include "RTOneW/core.h"
 #include "mainWindow.h"
-#include "RTOneW/vec3.h"
+#include "Core/vec3.h"
 #include <cuda_runtime.h>
 #include <curand_kernel.h>
 #include <math.h>

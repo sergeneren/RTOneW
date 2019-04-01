@@ -33,4 +33,4 @@ This project is licensed under GNU General Public License v3.0
 
 ## Acknowledgments
 * [Ray Tracing in One Weekend](http://in1weekend.blogspot.com/2016/01/ray-tracing-in-one-weekend.html) - *Big thanks to Peter Shirley*
-* [Accelerated Ray Tracing in One Weekend in CUDA] (https://devblogs.nvidia.com/accelerated-ray-tracing-cuda/) - *Roger Allen's first cuda implementation* 
+* [Accelerated Ray Tracing in One Weekend in CUDA](https://devblogs.nvidia.com/accelerated-ray-tracing-cuda/) - *Roger Allen's first cuda implementation* 

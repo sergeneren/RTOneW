@@ -29,7 +29,7 @@ RTOneW install is configured for windows and vcpkg
 * **Sergen Eren** - [My website](https://sergeneren.com) - [Vimeo](https://vimeo.com/sergeneren)
 
 ## Status
-This project is closed to development and maintenance 
+:red_circle: This project is closed to development and maintenance 
 
 ## License
 This project is licensed under GNU General Public License v3.0
